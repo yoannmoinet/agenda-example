@@ -24,5 +24,10 @@ There are two routes available to deliver the data :
 
 The most important part (I guess) would be the [`Agenda`](./app/js/models/Agenda.js) model.
 
+## Features
+
+- Persists data (offer selection and current week)
+- Supports local time changes
+
 ---
 ### License MIT
