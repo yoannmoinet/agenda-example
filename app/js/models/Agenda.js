@@ -15,11 +15,13 @@ module.exports = Backbone.Model.extend({
         this.on('change:offer', this.processOffer);
     },
     processLimit: function () {
-        var nextWeek = moment(this.get('start')).add(7, 'days');
-        var previousWeek = moment(this.get('start')).subtract(7, 'days');
+        var nextWeek = moment(this.get('start')).add(7, 'd').toDate();
+        var previousWeek = moment(this.get('start')).subtract(7, 'd').toDate();
         this.set({
-            isLastWeek: moment(this.get('to_date')).diff(nextWeek) < 0,
-            isFirstWeek: moment(this.get('from_date')).diff(previousWeek) > 0
+            isLastWeek: moment(this.get('to_date'))
+                .diff(nextWeek, 'd') < 0,
+            isFirstWeek: moment(this.get('from_date'))
+                .diff(previousWeek, 'd') > 0
         });
         // Update the week slots.
         this.getWeekSlots();
