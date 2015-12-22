@@ -34,6 +34,8 @@ var Slots = Backbone.Collection.extend({
             localStorage.setItem(
                 'slot_' + slot.get('starts_on'),
                 JSON.stringify({
+                    start: slot.get('start'),
+                    end: slot.get('end'),
                     starts_on: slot.get('starts_on'),
                     availability: slot.get('availability')
                 })

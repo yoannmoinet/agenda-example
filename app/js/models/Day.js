@@ -50,13 +50,17 @@ module.exports = Backbone.Model.extend({
             .second(0).toDate();
 
         var hours = moment(endsOn).diff(startsOn, 'h');
+        var slot, date;
 
         for (var i = 0, max = hours; i < max; i += 1) {
             date = moment(startsOn).add(i, 'h').toDate();
+            slot = this.get('slots').getSlot(date);
             this.get('cells').add({
                 selectable: false,
                 availability: this.get('slots').getAvailability(date),
-                slot: this.get('slots').getSlot(date),
+                slot: slot,
+                start: slot ? slot.get('start') : undefined,
+                end: slot ? slot.get('end') : undefined,
                 date: date
             });
         }

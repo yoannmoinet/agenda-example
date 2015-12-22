@@ -1,5 +1,6 @@
 var Marionette = require('backbone.marionette');
 var CellView = require('./CellView');
+var moment = require('moment');
 
 module.exports = Marionette.CollectionView.extend({
     className: 'day col-xs-2',
@@ -24,6 +25,8 @@ module.exports = Marionette.CollectionView.extend({
             }
             // Set cell as busy.
             cell.set({
+                start: c.get('date'),
+                end: moment(c.get('date')).add(duration, 'h').toDate(),
                 availability: 2
             });
         }
@@ -34,26 +37,33 @@ module.exports = Marionette.CollectionView.extend({
         this.model.get('slots').save();
     },
     removeOffer: function (c) {
-        var start = c.collection.indexOf(c);
-        var end = c.collection.indexOf(c);
-        var cell;
-
-        // Determine limits.
-        while (c.collection.at(start - 1) &&
-            c.collection.at(start - 1).get('availability') === 2) {
-            start -= 1;
+        // Get the index of the first cell sharing the same start.
+        var start = c.collection.indexOf(
+            c.collection.findWhere({start: c.get('start')})
+        );
+        // Get the index of the ending cell.
+        // or the last one having an availability.
+        var end = c.collection.indexOf(
+            c.collection.findWhere(function (cell) {
+                return moment(cell.get('date')).isSame(c.get('end'), 'h');
+            })
+        );
+        if (end < 0) {
+            end = c.collection.indexOf(
+                c.collection.where({availability: 2}).pop()
+            ) + 1;
         }
-
-        end = start + this.model.get('offer').get('duration') - 1;
-
+        var cell;
         // Remove slot.
-        for (var i = start; i <= end; i += 1) {
+        for (var i = start; i < end; i += 1) {
             cell = c.collection.at(i);
             if (!cell) {
                 return;
             }
             // Set cell as free.
             cell.set({
+                start: undefined,
+                duration: undefined,
                 availability: 1
             });
         }
