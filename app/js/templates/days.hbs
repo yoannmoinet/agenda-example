@@ -1,0 +1,15 @@
+{{#unless isFirstWeek}}
+<div id="previous" class="btn">
+    <span class="fa fa-chevron-left" aria-hidden="true"></span>
+</div>
+{{/unless}}
+<div id="days" class="col-xs-offset-1 col-xs-11">
+    {{#each days}}
+    <div class="day">{{{formatDate this}}}</div>
+    {{/each}}
+</div>
+{{#unless isLastWeek}}
+<div id="next" class="btn">
+    <span class="fa fa-chevron-right" aria-hidden="true"></span>
+</div>
+{{/unless}}

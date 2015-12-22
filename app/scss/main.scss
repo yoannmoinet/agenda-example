@@ -1,0 +1,139 @@
+@import 'variables';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap-sprockets';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../../node_modules/font-awesome/scss/font-awesome';
+
+.inlineBlock {
+    display: inline-block;
+    &:not(:last-child) {
+        // Hack for inline-block offset.
+        margin-right: -4px;
+    }
+}
+
+#content {
+    position: relative;
+    // Let some place for buttons.
+    padding-left: 36px;
+    padding-right: 36px;
+    min-width: 500px;
+
+    #days {
+        padding: 0;
+
+        .day {
+            @extend .inlineBlock;
+            width: (100% / 7);
+            text-align: center;
+            height: $head-height;
+            &:not(:last-child) {
+                border-right: 1px solid $gray-light;
+            }
+        }
+    }
+
+    #next, #previous {
+        position: absolute;
+        height: $head-height;
+        line-height: ($head-height - 15);
+    }
+
+    #next {
+        right: 0;
+    }
+
+    #previous {
+        left: 0;
+    }
+
+    #hours {
+        margin-top: -10px;
+        padding-right: 10px;
+
+        .hour {
+            color: $gray-light;
+            text-align: right;
+            height: $cell-height;
+        }
+    }
+
+    #week {
+        padding: 0;
+        border: solid 1px $gray-light;
+
+        .day {
+            padding: 0;
+            width: (100% / 7);
+            border-right: solid 1px $gray-light;
+
+            &:last-child {
+                border: none;
+            }
+
+            .cell {
+                position: relative;
+                border-bottom: solid 1px $gray-light;
+                cursor: pointer;
+                background: repeating-linear-gradient(
+                      -45deg,
+                      rgba($gray-base, 0.2),
+                      rgba($gray-base, 0.2) 3px,
+                      rgba($gray-base, 0.4) 3px,
+                      rgba($gray-base, 0.4) 6px
+                );
+                height: $cell-height;
+
+                &.available {
+                    background: repeating-linear-gradient(
+                          -45deg,
+                          rgba($brand-success, 0.1),
+                          rgba($brand-success, 0.1) 3px,
+                          rgba($brand-success, 0.2) 3px,
+                          rgba($brand-success, 0.2) 6px
+                    );
+                }
+
+                &.busy {
+                    background: rgba(lighten($brand-primary, 15%), 0.5);
+                }
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.8);
+                    border: 5px dashed $brand-danger !important;
+
+                    &:before {
+                        @extend .fa;
+                        content: '\f00d';
+                        color: $brand-danger;
+                        font-size: 20px;
+                        position: absolute;
+                        text-align: center;
+                        width: 100%;
+                        height: 100%;
+                        line-height: $cell-height / 1.5;
+                    }
+
+                    &.selectable {
+                        border-color: $brand-success !important;
+                        &:before {
+                            content: '\f00c';
+                            color: $brand-success;
+                        }
+                    }
+
+                    &.busy {
+                        border-color: $brand-warning !important;
+                        &:before {
+                            content: '\f1f8';
+                            color: $brand-warning;
+                        }
+                    }
+                }
+
+                &:last-child {
+                    border: none;
+                }
+            }
+        }
+    }
+}
