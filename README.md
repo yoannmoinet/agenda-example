@@ -4,8 +4,8 @@
 ## Installation
 
 ```bash
-> git clone git@github.com:yoannmoinet/agenda.git
-> cd agenda
+> git clone git@github.com:yoannmoinet/agenda-example.git
+> cd agenda-example
 > npm i -g gulp
 ```
 
